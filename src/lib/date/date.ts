@@ -1,0 +1,52 @@
+export function getMonthName(date: Date = new Date()): string {
+  const monthName = date.toLocaleDateString("pt-BR", {
+    month: "long",
+  });
+
+  return monthName.charAt(0).toUpperCase() + monthName.slice(1);
+}
+
+export function getToday(): Date {
+  return new Date();
+}
+
+// Data curta "DD/MM" — usada em listas densas (ex.: transações recentes).
+export function formatShortDate(date: Date): string {
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  return `${day}/${month}`;
+}
+
+export function getYear(date: Date = getToday()): number {
+  return date.getFullYear();
+}
+
+export function getMonthAndYear(date: Date = getToday()): string {
+  return `${getMonthName(date)} de ${getYear(date)}`;
+}
+
+export function formatRelativeTime(date: Date, now = new Date()): string {
+  const diffInMs = Math.max(0, now.getTime() - date.getTime());
+  const diffInMinutes = Math.floor(diffInMs / (60 * 1000));
+
+  if (diffInMinutes < 1) return "agora";
+  if (diffInMinutes < 60) {
+    return `há ${diffInMinutes} min`;
+  }
+
+  const diffInHours = Math.floor(diffInMinutes / 60);
+  if (diffInHours < 24) {
+    return `há ${diffInHours} h`;
+  }
+
+  const diffInDays = Math.floor(diffInHours / 24);
+  return `há ${diffInDays} ${diffInDays === 1 ? "dia" : "dias"}`;
+}
+
+export function formatDateInput(date: Date): string {
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+
+  return `${day}/${month}/${year}`;
+}
